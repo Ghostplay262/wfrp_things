@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Calendrier Impérial — Anno Imperialis 2434</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ═══ ROOT VARS ══════════════════════════════════════════════ */
+  :root {
+    --ink:      #1C0E06;
+    --ink-mid:  #3A2010;
+    --gold:     #9A7200;
+    --gold-b:   #C8A028;
+    --gold-l:   #E8C048;
+    --red-d:    #620606;
+    --red:      #881010;
+    --mann:     #A8C0E0;
+    --morr:     #58BB50;
+    --parch:    #F0D898;
+  }
+
+  /* ═══ PAGE SETUP ═════════════════════════════════════════════ */
+  @page { size: A2 landscape; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 594mm;
+    font-family: 'Crimson Text', Georgia, serif;
+    color: var(--ink);
+    background: #DFC070;
+  }
+  body {
+    padding: 3.5mm;
+    background-image:
+      radial-gradient(ellipse at 15% 15%, rgba(220,180,60,0.25) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 85%, rgba(150,90,20,0.18) 0%, transparent 50%);
+  }
+
+  /* ═══ PAGE FRAME ═════════════════════════════════════════════ */
+  .frame {
+    width: 100%; height: calc(420mm - 7mm);
+    border: 2px solid var(--gold);
+    box-shadow: inset 0 0 0 1px rgba(210,170,40,0.35);
+    padding: 3.5mm;
+    display: flex;
+    flex-direction: column;
+    gap: 2mm;
+    background: linear-gradient(145deg, #FBF0D2 0%, #F2DC8A 55%, #EAD06A 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .frame::before { content:'⚜'; position:absolute; top:1.5mm; left:2mm; font-size:10px; color:var(--gold-b); opacity:0.55; }
+  .frame::after  { content:'⚜'; position:absolute; bottom:1.5mm; right:2mm; font-size:10px; color:var(--gold-b); opacity:0.55; }
+  .ctop { position:absolute; top:1.5mm; right:2mm; font-size:10px; color:var(--gold-b); opacity:0.55; }
+  .cbot { position:absolute; bottom:1.5mm; left:2mm; font-size:10px; color:var(--gold-b); opacity:0.55; }
+
+  /* ═══ HEADER ═════════════════════════════════════════════════ */
+  .hdr {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3mm;
+    padding-bottom: 2mm;
+    border-bottom: 1.5px solid var(--gold);
+  }
+  .hdr-orn { color: var(--gold-b); font-size: 16px; flex-shrink: 0; }
+
+  .title-block { text-align: center; flex-shrink: 0; }
+  .main-title {
+    font-family: 'UnifrakturMaguntia', cursive;
+    font-size: 22px; line-height: 1;
+    color: var(--red-d);
+    text-shadow: 1px 1px 0 var(--gold-b);
+  }
+  .year-line {
+    font-family: 'Cinzel', serif; font-size: 7.5px; font-weight: 700;
+    color: var(--gold); letter-spacing: 5px; text-transform: uppercase; margin-top: 1mm;
+  }
+
+  .hexenstag {
+    flex-shrink: 0;
+    background: var(--red-d);
+    color: var(--gold-l);
+    border: 1px solid var(--gold-b);
+    padding: 1.5mm 4mm;
+    font-family: 'Cinzel Decorative', 'Cinzel', serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  }
+
+  .moon-legend {
+    flex-shrink: 0;
+    display: flex; align-items: center; gap: 4px;
+    font-family: 'Cinzel', serif; font-size: 9px; font-weight: 600;
+    letter-spacing: 0.8px; color: var(--ink-mid);
+    white-space: nowrap;
+  }
+  .ml-item { display: flex; align-items: center; gap: 2.5px; }
+  .ml-sep  { opacity: 0.45; font-size: 9px; margin: 0 1px; }
+  .ml-note { font-style: italic; font-family: 'Crimson Text', serif; font-size: 9px; opacity: 0.75; }
+  .mdot {
+    width: 9px; height: 9px; border-radius: 50%; display: inline-block;
+    border: 0.8px solid rgba(0,0,0,0.2); flex-shrink: 0;
+  }
+  .mdot.m { background: radial-gradient(circle at 33% 33%, #EEF4FF, var(--mann)); }
+  .mdot.r { background: radial-gradient(circle at 33% 33%, #D8FFD8, var(--morr)); box-shadow: 0 0 2px rgba(60,180,50,0.35); }
+
+  /* ═══ CALENDAR GRID ══════════════════════════════════════════ */
+  .cal-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 2mm;
+    min-height: 0;
+  }
+
+  /* ═══ MONTH CARD ══════════════════════════════════════════════ */
+  .mcard {
+    display: flex; flex-direction: column;
+    border: 1px solid var(--gold);
+    background: linear-gradient(168deg, #FEFBF0 0%, #F8ECC0 100%);
+    box-shadow: inset 0 0 0 0.5px rgba(200,160,30,0.2);
+    overflow: hidden; min-height: 0;
+  }
+
+  /* Month header */
+  .mhdr {
+    flex-shrink: 0;
+    background: linear-gradient(180deg, var(--red) 0%, var(--red-d) 100%);
+    color: var(--gold-l);
+    text-align: center;
+    padding: 1.5mm 1mm 1.2mm;
+    font-family: 'Cinzel', serif;
+    font-size: 15px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+    border-bottom: 1.5px solid var(--gold-b);
+    line-height: 1.15;
+  }
+  .mhdr .lat {
+    display: block; font-size: 6px; letter-spacing: 6px;
+    font-weight: 400; margin-top: 0.5mm;
+  }
+
+  /* Weekday header */
+  .wrow {
+    flex-shrink: 0;
+    display: grid; grid-template-columns: repeat(8, 1fr);
+    background: rgba(155,115,0,0.09);
+    border-bottom: 0.8px solid rgba(155,110,0,0.22);
+  }
+  .wd {
+    text-align: center; padding: 0.9mm 0;
+    font-family: 'Cinzel', serif; font-size: 9px; font-weight: 700;
+    color: var(--gold); letter-spacing: 0; text-transform: uppercase;
+    border-right: 0.7px solid rgba(155,110,0,0.1);
+  }
+  .wd:last-child { border-right: none; }
+  .wd.festag-h { color: var(--red-d); }
+
+  /* Day grid: 8 cols × 5 rows = 40 fixed cells */
+  .dgrid {
+    flex: 1; min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+  }
+
+  .dc {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 0.4mm;
+    border-right: 0.7px solid rgba(155,110,0,0.09);
+    border-bottom: 0.7px solid rgba(155,110,0,0.09);
+    font-family: 'Crimson Text', serif;
+    font-weight: 600; color: var(--ink-mid);
+    overflow: hidden;
+  }
+  .dc:nth-child(8n)   { border-right: none; }
+  .dc:nth-child(n+33) { border-bottom: none; }
+  .dc.empty  { background: rgba(0,0,0,0.018); }
+  .dc.re     { background: rgba(248,235,185,0.55); } /* row-even */
+  .dc.ro     { background: rgba(238,215,140,0.18); } /* row-odd  */
+  .dc.fc.re  { background: rgba(106,6,6,0.04); }    /* festag col */
+  .dc.fc.ro  { background: rgba(106,6,6,0.025); }
+
+  .dnum { font-size: 20px; line-height: 1; }
+
+  /* Moon badges */
+  .mwrap { display: flex; gap: 1.5px; align-items: center; margin-top: 0.6mm; }
+  .mb {
+    width: 9px; height: 9px; border-radius: 50%; display: block;
+    border: 0.7px solid rgba(0,0,0,0.15); flex-shrink: 0;
+  }
+  .mb.m { background: radial-gradient(circle at 33% 33%, #EEF4FF, var(--mann)); }
+  .mb.r { background: radial-gradient(circle at 33% 33%, #D8FFD8, var(--morr)); box-shadow: 0 0 2px rgba(50,170,40,0.35); }
+
+  /* Season marker */
+  .szn {
+    width: 9px; height: 9px; border-radius: 50%;
+    display: block; margin-top: 0.8mm; flex-shrink: 0;
+  }
+  .szn.sp { background: #3A8028; }
+  .szn.su { background: #B88800; }
+  .szn.au { background: #B84808; }
+  .szn.wi { background: #2858A8; }
+
+  /* Festival footer */
+  .ffooter {
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; gap: 3px;
+    padding: 1.1mm 2mm;
+    font-family: 'Cinzel', serif; font-size: 6px; font-weight: 600;
+    letter-spacing: 1.2px; border-top: 0.8px solid;
+    overflow: hidden; white-space: nowrap;
+  }
+  .ffooter .fn {
+    font-family: 'Cinzel Decorative', 'Cinzel', serif;
+    font-size: 7.5px; font-weight: 700; letter-spacing: 1px;
+  }
+  .ffooter .fd { opacity: 0.78; font-size: 5.5px; }
+  .ff-sp { background: rgba(50,120,40,0.1);  color: #27601A; border-color: rgba(50,120,40,0.35); }
+  .ff-su { background: rgba(180,140,0,0.1);  color: #6A4800; border-color: rgba(180,140,0,0.35); }
+  .ff-dk { background: rgba(15,5,35,0.88);   color: #A888CC; border-color: rgba(70,30,110,0.6);  }
+  .ff-au { background: rgba(150,65,0,0.1);   color: #6A2800; border-color: rgba(150,65,0,0.35);  }
+  .ff-wi { background: rgba(25,55,140,0.1);  color: #1A2860; border-color: rgba(25,55,140,0.35); }
+
+  /* ═══ FOOTER ═════════════════════════════════════════════════ */
+  .ftr {
+    flex-shrink: 0;
+    border-top: 1.5px solid var(--gold);
+    padding-top: 1.5mm;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    font-family: 'Crimson Text', serif; font-size: 7px; font-style: italic;
+    color: var(--gold); letter-spacing: 0.8px;
+  }
+
+  /* ═══ PRINT BUTTON ═══════════════════════════════════════════ */
+  .pbtn {
+    position: fixed; bottom: 14px; right: 14px;
+    background: var(--red-d); color: var(--gold-l);
+    border: 1.5px solid var(--gold-b); padding: 7px 14px;
+    font-family: 'Cinzel', serif; font-size: 11px; font-weight: 600;
+    letter-spacing: 2px; cursor: pointer; z-index: 10000;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+  }
+  .pbtn:hover { background: var(--red); }
+
+  @media print {
+    html, body { width: 594mm; height: 420mm; overflow: hidden; }
+    .pbtn { display: none !important; }
+    .frame { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<button class="pbtn" onclick="window.print()">⚜ PRINT A2 LANDSCAPE ⚜</button>
+
+<div class="frame">
+  <span class="ctop">⚜</span>
+  <span class="cbot">⚜</span>
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <span class="hdr-orn">⚜ ✦</span>
+
+    <div class="title-block">
+      <div class="main-title">Calendrier Impérial</div>
+      <div class="year-line">Anno Imperialis · MMCDXXXIV · 2434</div>
+    </div>
+
+    <div class="hexenstag">✦ Hexenstag · Nuit des sorcières · Nouvel An2434 ✦</div>
+
+    <div class="moon-legend">
+      <span class="ml-item"><span class="mdot m"></span>Mannslieb — Pleine Lune d'Argent (cycle 25 jours)</span>
+      <span class="ml-sep">·</span>
+      <span class="ml-item"><span class="mdot r"></span>Morrslieb — Pleine Lune du Chaos (~15 jours, irrégulier)</span>
+      <span class="ml-sep">·</span>
+      <span class="ml-sep">·</span>
+      <span class="ml-note" style="color:#3A8028;">● Printemps</span>
+      <span class="ml-item"><span class="szn sp" style="margin:0;"></span></span>
+      <span class="ml-note" style="color:#B88800;">Été</span>
+      <span class="ml-item"><span class="szn su" style="margin:0;"></span></span>
+      <span class="ml-note" style="color:#B84808;">Automne</span>
+      <span class="ml-item"><span class="szn au" style="margin:0;"></span></span>
+      <span class="ml-note" style="color:#2858A8;">Hiver</span>
+      <span class="ml-item"><span class="szn wi" style="margin:0;"></span></span>
+    </div>
+
+    <span class="hdr-orn">✦ ⚜</span>
+  </div>
+
+  <!-- CALENDAR GRID -->
+  <div class="cal-grid" id="cg"></div>
+
+  <!-- FOOTER -->
+  <div class="ftr">
+    <span>❧</span>
+    <span>Warhammer Fantasy Roleplay IV Edition</span>
+    <span>·</span>
+    <span>Anno Imperialis 2434 · 12 Mois · 394 Jours + 6 Fêtes = 400 Jours · 8-Jours par semaine · Semaine: Wellentag–Festag</span>
+    <span>·</span>
+    <span>Empire des hommes · Altdorf</span>
+    <span>❧</span>
+  </div>
+</div>
+
+<script>
+const WD = ['Wellentag','Aubentag','Marktag','Backertag','Bezahltag','Könistag','Angestag','Festag'];
+const FC = 7; // Festag column index
+
+/* MONTHS — off = starting weekday column (0=Wellentag … 7=Festag) */
+const MONTHS = [
+  // idx  name              latin               days  off  szn(day,cls)  festival-follows
+  { i:0,  n:'Nachexen',  lt:'Après Sorcières',      d:32, o:4, s:{day:17,c:'sp',t:'First days of spring'}, f:null },
+  { i:1,  n:'Jahrdrung',  lt:'Mois de l an nouveau',   d:33, o:4, s:null,
+    f:{n:'Mitterfruhl', dc:'Renouveau', c:'sp'} },
+  { i:2,  n:'Pflugzeit',  lt:'Mois des labours',        d:33, o:5, s:null, f:null },
+  { i:3,  n:'Sigmarzeit', lt:'Mois de Sigmar',      d:33, o:6, s:{day:18,c:'su',t:'First days of summer'}, f:null },
+  { i:4,  n:'Sommerzeit', lt:'Mois de l Été',   d:33, o:7, s:null,
+    f:{n:'Sonnstill', dc:'Solstice d Été', c:'su'} },
+  { i:5,  n:'Vorgeheim',  lt:'Avant Mystères',    d:33, o:0, s:null,
+    f:{n:'Geheimnistag', dc:'Jour du Mystère', c:'dk'} },
+  { i:6,  n:'Nachgeheim', lt:'Après Mystères',   d:32, o:1, s:{day:17,c:'au',t:'First days of autumn'}, f:null },
+  { i:7,  n:'Erntezeit',  lt:'Mois des Moissons',        d:33, o:1, s:null,
+    f:{n:'Mittherbst', dc:'Décroissance', c:'au'} },
+  { i:8,  n:'Brauzeit',   lt:'Mois du Brassage',         d:33, o:2, s:null, f:null },
+  { i:9,  n:'Kaldezeit',  lt:'Mois de l Hiver',        d:33, o:3, s:{day:18,c:'wi',t:'First days of winter'}, f:null },
+  { i:10, n:'Ulriczeit',  lt:'Mois d Ulric',       d:33, o:4, s:null,
+    f:{n:'Mondstille', dc:'Dormance', c:'wi'} },
+  { i:11, n:'Vorhexen',   lt:'Avant Sorcières',     d:33, o:5, s:null, f:null },
+];
+
+/* MANNSLIEB full moons per month (25-day cycle, derived from new moon Nachhexen 13)
+   New moon abs=14 → full moon abs=26 (Nachhexen 24), then every +25 days.
+   Vorgeheim: Mannslieb is also full on Geheimnistag itself (abs=201, festival day) */
+const MANN = {
+  0:[24], 1:[17], 2:[8,33], 3:[25], 4:[17], 5:[8,33],
+  6:[24], 7:[17], 8:[8,33], 9:[25], 10:[17], 11:[8]
+};
+
+/* MORRSLIEB full moons (chaos cycle, irregular 13–17 day intervals)
+   First full moon: Nachhexen day 4. Notable: 3 full moons in Nachhexen,
+   Sommerzeit, and Brauzeit. First day of spring (Nachhexen 17) has Morrslieb full. */
+const MORR = {
+  0:[4,17,32],  1:[14,30],   2:[9,24],   3:[5,22],
+  4:[2,18,32],  5:[13,27],   6:[10,23],  7:[7,21],
+  8:[2,15,32],  9:[13,29],   10:[9,24],  11:[4,20]
+};
+
+/* ── RENDER MONTH ─────────────────────────────────────────────── */
+function makeMonth(m) {
+  const mSet = new Set(MANN[m.i] || []);
+  const rSet = new Set(MORR[m.i] || []);
+
+  const card = document.createElement('div');
+  card.className = 'mcard';
+
+  /* Header */
+  const hdr = document.createElement('div');
+  hdr.className = 'mhdr';
+  hdr.innerHTML = `${m.n}<span class="lat">${m.lt}</span>`;
+  card.appendChild(hdr);
+
+  /* Weekday row */
+  const wr = document.createElement('div');
+  wr.className = 'wrow';
+  WD.forEach((w, ci) => {
+    const c = document.createElement('div');
+    c.className = 'wd' + (ci === FC ? ' festag-h' : '');
+    c.textContent = w;
+    wr.appendChild(c);
+  });
+  card.appendChild(wr);
+
+  /* Day grid — exactly 40 cells (5×8) */
+  const dg = document.createElement('div');
+  dg.className = 'dgrid';
+
+  for (let pos = 0; pos < 40; pos++) {
+    const col    = pos % 8;
+    const row    = Math.floor(pos / 8);
+    const dayNum = pos - m.o + 1;
+    const isDay  = dayNum >= 1 && dayNum <= m.d;
+    const isFest = col === FC;
+
+    const cell = document.createElement('div');
+
+    if (!isDay) {
+      cell.className = 'dc empty';
+    } else {
+      const rowCls = row % 2 === 0 ? 're' : 'ro';
+      cell.className = 'dc ' + rowCls + (isFest ? ' fc' : '');
+
+      /* Day number */
+      const dn = document.createElement('span');
+      dn.className = 'dnum';
+      dn.textContent = dayNum;
+      cell.appendChild(dn);
+
+      /* Moon badges */
+      const hM = mSet.has(dayNum);
+      const hR = rSet.has(dayNum);
+      if (hM || hR) {
+        const mw = document.createElement('span');
+        mw.className = 'mwrap';
+        if (hM) { const b = document.createElement('span'); b.className='mb m'; b.title='Mannslieb Full Moon'; mw.appendChild(b); }
+        if (hR) { const b = document.createElement('span'); b.className='mb r'; b.title='Morrslieb Full Moon'; mw.appendChild(b); }
+        cell.appendChild(mw);
+      }
+
+      /* Season marker */
+      if (m.s && dayNum === m.s.day) {
+        const sd = document.createElement('span');
+        sd.className = 'szn ' + m.s.c;
+        sd.title = m.s.t;
+        cell.appendChild(sd);
+      }
+    }
+
+    dg.appendChild(cell);
+  }
+  card.appendChild(dg);
+
+  /* Festival footer */
+  if (m.f) {
+    const ff = document.createElement('div');
+    ff.className = 'ffooter ff-' + m.f.c;
+    ff.innerHTML = `✦ <span class="fn">${m.f.n}</span> <span class="fd">· ${m.f.dc} ·</span> ✦`;
+    card.appendChild(ff);
+  }
+
+  return card;
+}
+
+/* ── BUILD ───────────────────────────────────────────────────── */
+const cg = document.getElementById('cg');
+MONTHS.forEach(m => cg.appendChild(makeMonth(m)));
+</script>
+</body>
+</html>

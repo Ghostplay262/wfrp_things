@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>Imperial Calendar — Anno Imperialis 2434</title>
+<title>Imperialny Kalendarz — Anno Imperialis 2434</title>
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   /* ═══ ROOT VARS ══════════════════════════════════════════════ */
@@ -259,7 +259,7 @@
 </head>
 <body>
 
-<button class="pbtn" onclick="window.print()">⚜ PRINT A2 LANDSCAPE ⚜</button>
+<button class="pbtn" onclick="window.print()">⚜ DRUKUJ A2 POZIOMO ⚜</button>
 
 <div class="frame">
   <span class="ctop">⚜</span>
@@ -270,25 +270,25 @@
     <span class="hdr-orn">⚜ ✦</span>
 
     <div class="title-block">
-      <div class="main-title">Imperial Calendar</div>
-      <div class="year-line">Anno Imperialis · MCDXXXIV · 2434</div>
+      <div class="main-title">Imperialny Kalendarz</div>
+      <div class="year-line">Anno Imperialis · MMCDXXXIV · 2434</div>
     </div>
 
-    <div class="hexenstag">✦ Hexenstag · Witching Night · New Year 2434 ✦</div>
+    <div class="hexenstag">✦ Hexenstag · Noc Czarownic · Nowy Rok Anno 2434 ✦</div>
 
     <div class="moon-legend">
-      <span class="ml-item"><span class="mdot m"></span>Mannslieb — Full Silver Moon (cycle 25 days)</span>
+      <span class="ml-item"><span class="mdot m"></span>Mannslieb — Pełnia Srebrna (cykl 25 dni)</span>
       <span class="ml-sep">·</span>
-      <span class="ml-item"><span class="mdot r"></span>Morrslieb — Full Chaos Moon (~15 days, irregular)</span>
+      <span class="ml-item"><span class="mdot r"></span>Morrslieb — Pełnia Chaosu (~15 dni, nieregularny)</span>
       <span class="ml-sep">·</span>
       <span class="ml-sep">·</span>
-      <span class="ml-note" style="color:#3A8028;">● Spring</span>
+      <span class="ml-note" style="color:#3A8028;">● Wiosna</span>
       <span class="ml-item"><span class="szn sp" style="margin:0;"></span></span>
-      <span class="ml-note" style="color:#B88800;">Summer</span>
+      <span class="ml-note" style="color:#B88800;">Lato</span>
       <span class="ml-item"><span class="szn su" style="margin:0;"></span></span>
-      <span class="ml-note" style="color:#B84808;">Autumn</span>
+      <span class="ml-note" style="color:#B84808;">Jesień</span>
       <span class="ml-item"><span class="szn au" style="margin:0;"></span></span>
-      <span class="ml-note" style="color:#2858A8;">Winter</span>
+      <span class="ml-note" style="color:#2858A8;">Zima</span>
       <span class="ml-item"><span class="szn wi" style="margin:0;"></span></span>
     </div>
 
@@ -303,9 +303,9 @@
     <span>❧</span>
     <span>Warhammer Fantasy Roleplay IV Edition</span>
     <span>·</span>
-    <span>Anno Imperialis 2434 · 12 Months · 394 Days + 6 Holidays = 400 Days · 8-Day Week · Week: Wellentag–Festag</span>
+    <span>Anno Imperialis 2434 · 12 Miesięcy · 394 Dni + 6 Świąt = 400 Dni · 8-Dniowy Tydzień · Tydzień: Wellentag–Festag</span>
     <span>·</span>
-    <span>Empire of Man · Altdorf</span>
+    <span>Imperium Człowieka · Altdorf</span>
     <span>❧</span>
   </div>
 </div>
@@ -317,22 +317,22 @@ const FC = 7; // Festag column index
 /* MONTHS — off = starting weekday column (0=Wellentag … 7=Festag) */
 const MONTHS = [
   // idx  name              latin               days  off  szn(day,cls)  festival-follows
-  { i:0,  n:'Nachhexen',  lt:'Nachwinter',      d:32, o:4, s:{day:17,c:'sp',t:'First days of spring'}, f:null },
+  { i:0,  n:'Nachhexen',  lt:'Nachwinter',      d:32, o:4, s:{day:17,c:'sp',t:'Pierwsze dni wiosny'}, f:null },
   { i:1,  n:'Jahrdrung',  lt:'Frühlingsmond',   d:33, o:4, s:null,
-    f:{n:'Mitterfruhl', dc:'Spring Equinox', c:'sp'} },
+    f:{n:'Mitterfruhl', dc:'Wiosenna Równonoc', c:'sp'} },
   { i:2,  n:'Pflugzeit',  lt:'Pflugmond',        d:33, o:5, s:null, f:null },
-  { i:3,  n:'Sigmarzeit', lt:'Sigmarsmond',      d:33, o:6, s:{day:18,c:'su',t:'First days of summer'}, f:null },
+  { i:3,  n:'Sigmarzeit', lt:'Sigmarsmond',      d:33, o:6, s:{day:18,c:'su',t:'Pierwsze dni lata'}, f:null },
   { i:4,  n:'Sommerzeit', lt:'Hochsommermond',   d:33, o:7, s:null,
-    f:{n:'Sonnstill', dc:'Summer Solstice', c:'su'} },
+    f:{n:'Sonnstill', dc:'Letnie Przesilenie', c:'su'} },
   { i:5,  n:'Vorgeheim',  lt:'Vordunkelmond',    d:33, o:0, s:null,
-    f:{n:'Geheimnistag', dc:'Night of Mystery · both moons in zenith', c:'dk'} },
-  { i:6,  n:'Nachgeheim', lt:'Nachdunkelmond',   d:32, o:1, s:{day:17,c:'au',t:'First days of autumn'}, f:null },
+    f:{n:'Geheimnistag', dc:'Noc Tajemnicy · oba księżyce w zenicie', c:'dk'} },
+  { i:6,  n:'Nachgeheim', lt:'Nachdunkelmond',   d:32, o:1, s:{day:17,c:'au',t:'Pierwsze dni jesieni'}, f:null },
   { i:7,  n:'Erntezeit',  lt:'Erntemond',        d:33, o:1, s:null,
-    f:{n:'Mittherbst', dc:'Autumn Equinox', c:'au'} },
+    f:{n:'Mittherbst', dc:'Jesienna Równonoc', c:'au'} },
   { i:8,  n:'Brauzeit',   lt:'Braumond',         d:33, o:2, s:null, f:null },
-  { i:9,  n:'Kaldezeit',  lt:'Kaltemond',        d:33, o:3, s:{day:18,c:'wi',t:'First days of winter'}, f:null },
+  { i:9,  n:'Kaldezeit',  lt:'Kaltemond',        d:33, o:3, s:{day:18,c:'wi',t:'Pierwsze dni zimy'}, f:null },
   { i:10, n:'Ulriczeit',  lt:'Ulricsmond',       d:33, o:4, s:null,
-    f:{n:'Mondstille', dc:'Winter Solstice', c:'wi'} },
+    f:{n:'Mondstille', dc:'Zimowe Przesilenie', c:'wi'} },
   { i:11, n:'Vorhexen',   lt:'Vorhexenmond',     d:33, o:5, s:null, f:null },
 ];
 
@@ -409,8 +409,8 @@ function makeMonth(m) {
       if (hM || hR) {
         const mw = document.createElement('span');
         mw.className = 'mwrap';
-        if (hM) { const b = document.createElement('span'); b.className='mb m'; b.title='Mannslieb Full Moon'; mw.appendChild(b); }
-        if (hR) { const b = document.createElement('span'); b.className='mb r'; b.title='Morrslieb Full Moon'; mw.appendChild(b); }
+        if (hM) { const b = document.createElement('span'); b.className='mb m'; b.title='Pełnia Mannslieba'; mw.appendChild(b); }
+        if (hR) { const b = document.createElement('span'); b.className='mb r'; b.title='Pełnia Morrslieba'; mw.appendChild(b); }
         cell.appendChild(mw);
       }
 
